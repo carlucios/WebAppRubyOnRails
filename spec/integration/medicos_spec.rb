@@ -15,7 +15,7 @@ RSpec.describe 'Medicos API', type: :request do
   let(:non_existent_medico_id) { existing_medico_id + 1000 }
 
   path '/medicos' do
-    get('list medicos') do
+    get('View a list of available medicos') do
       tags 'Medicos'
       produces 'application/json'
 
@@ -24,7 +24,7 @@ RSpec.describe 'Medicos API', type: :request do
       end
     end
 
-    post('create medico') do
+    post('Add a medico') do
       tags 'Medicos'
       consumes 'application/json'
       parameter name: :medico, in: :body, schema: {
@@ -61,7 +61,7 @@ RSpec.describe 'Medicos API', type: :request do
   path '/medicos/{id}' do
     parameter name: 'id', in: :path, type: :integer, description: 'id'
 
-    get('show medico') do
+    get('Get a medico by id') do
       tags 'Medicos'
       produces 'application/json'
 
@@ -75,7 +75,15 @@ RSpec.describe 'Medicos API', type: :request do
                  password: { type: :string },
                  phone: { type: :string }
                },
-               required: [ 'id', 'email', 'name', 'password' ]
+               required: [ 'id', 'email', 'name', 'password' ],
+               example: {
+                 id: 1,
+                 email: 'dr.john.doe@example.com',
+                 name: 'Dr. John Doe',
+                 photo: 'dr_john_doe.jpg',
+                 password: 'password123',
+                 phone: '123-456-7890'
+               }
 
         let(:id) { existing_medico_id }
         run_test!
@@ -87,7 +95,7 @@ RSpec.describe 'Medicos API', type: :request do
       end
     end
 
-    patch('update medico') do
+    patch('Update a medico') do
       tags 'Medicos'
       consumes 'application/json'
       parameter name: :medico, in: :body, schema: {
@@ -99,7 +107,14 @@ RSpec.describe 'Medicos API', type: :request do
           password: { type: :string },
           phone: { type: :string }
         },
-        required: [ 'email', 'name', 'password' ]
+        required: [ 'email', 'name', 'password' ],
+               example: {
+                 email: 'dr.john.doe@example.com',
+                 name: 'Dr. John Doe',
+                 photo: 'dr_john_doe.jpg',
+                 password: 'password123',
+                 phone: '123-456-7890'
+               }
       }
 
       response(200, 'successful') do
@@ -109,12 +124,22 @@ RSpec.describe 'Medicos API', type: :request do
         let(:medico) { updated_attributes }
         run_test!
       end
+
+      response(404, 'not found') do
+        let(:id) { non_existent_medico_id }
+        run_test!
+      end
     end
 
-    delete('delete medico') do
+    delete('Delete a medico') do
       tags 'Medicos'
       response(204, 'no content') do
         let(:id) { existing_medico_id }
+        run_test!
+      end
+
+      response(404, 'not found') do
+        let(:id) { non_existent_medico_id }
         run_test!
       end
     end

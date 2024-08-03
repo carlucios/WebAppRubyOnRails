@@ -6,14 +6,14 @@ info:
 paths:
   "/medicos":
     get:
-      summary: list medicos
+      summary: View a list of available medicos
       tags:
       - Medicos
       responses:
         '200':
           description: successful
     post:
-      summary: create medico
+      summary: Add a medico
       tags:
       - Medicos
       parameters: []
@@ -49,7 +49,7 @@ paths:
       schema:
         type: integer
     get:
-      summary: show medico
+      summary: Get a medico by id
       tags:
       - Medicos
       responses:
@@ -77,16 +77,25 @@ paths:
                 - email
                 - name
                 - password
+                example:
+                  id: 1
+                  email: dr.john.doe@example.com
+                  name: Dr. John Doe
+                  photo: dr_john_doe.jpg
+                  password: password123
+                  phone: 123-456-7890
         '404':
           description: not found
     patch:
-      summary: update medico
+      summary: Update a medico
       tags:
       - Medicos
       parameters: []
       responses:
         '200':
           description: successful
+        '404':
+          description: not found
       requestBody:
         content:
           application/json:
@@ -107,15 +116,23 @@ paths:
               - email
               - name
               - password
+              example:
+                email: dr.john.doe@example.com
+                name: Dr. John Doe
+                photo: dr_john_doe.jpg
+                password: password123
+                phone: 123-456-7890
     delete:
-      summary: delete medico
+      summary: Delete a medico
       tags:
       - Medicos
       responses:
         '204':
           description: no content
+        '404':
+          description: not found
 servers:
-- url: https://{defaultHost}
+- url: http://127.0.0.1:3000
   variables:
     defaultHost:
-      default: www.example.com
+      default: 127.0.0.1:3000
