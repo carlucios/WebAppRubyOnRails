@@ -1,0 +1,121 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/medicos":
+    get:
+      summary: list medicos
+      tags:
+      - Medicos
+      responses:
+        '200':
+          description: successful
+    post:
+      summary: create medico
+      tags:
+      - Medicos
+      parameters: []
+      responses:
+        '201':
+          description: created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                name:
+                  type: string
+                photo:
+                  type: string
+                password:
+                  type: string
+                phone:
+                  type: string
+              required:
+              - email
+              - name
+              - password
+  "/medicos/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: integer
+    get:
+      summary: show medico
+      tags:
+      - Medicos
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  email:
+                    type: string
+                  name:
+                    type: string
+                  photo:
+                    type: string
+                  password:
+                    type: string
+                  phone:
+                    type: string
+                required:
+                - id
+                - email
+                - name
+                - password
+        '404':
+          description: not found
+    patch:
+      summary: update medico
+      tags:
+      - Medicos
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                name:
+                  type: string
+                photo:
+                  type: string
+                password:
+                  type: string
+                phone:
+                  type: string
+              required:
+              - email
+              - name
+              - password
+    delete:
+      summary: delete medico
+      tags:
+      - Medicos
+      responses:
+        '204':
+          description: no content
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
